@@ -1,0 +1,22 @@
+.modal-styles {
+  background-color: purple !important;
+}
+
+hr {
+  width: 340px;
+}
+.input {
+  float: right;
+}
+
+.label {
+  float: left;
+}
+.text-input {
+  padding-bottom: 15px;
+}
+
+#radio-group {
+  float: right;
+  margin-right: 33%;
+}
