@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
+import { Formik, Form, useField, Field } from 'formik';
+import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 
 import { Button_AddAccount } from '../../assets/styles/CustomStyles';
 import { addAccount } from '../../store/redux/accounts/accountAction';
+
+import { TextInput } from './TextInput';
+
+import '../../styles/styles.css';
 
 export default function AddAccount() {
   const dispatch = useDispatch();
@@ -21,8 +27,20 @@ export default function AddAccount() {
     setAccountData({ ...accountData, [e.target.name]: e.target.value });
   };
 
+  const validationSchema = Yup.object().shape({
+    accountName: Yup.string().required('Account Name is required'),
+    phoneNumber: Yup.string()
+      .max(10, 'More numbers provided')
+      .min(10, 'Less numbers provided')
+      .required('Phone number is required'),
+    email: Yup.string()
+      .email('Invalid email address')
+      .required('Email is required'),
+    writerId: Yup.string().required('Writer ID is required'),
+    accountProvider: Yup.string().required('Account Provider is required'),
+  });
+
   const onSubmit = () => {
-    console.log('Hello');
     // e.preventDefault();
     dispatch(
       addAccount({ accountName, phoneNumber, email, writerId, accountProvider })
@@ -30,104 +48,66 @@ export default function AddAccount() {
   };
 
   return (
-    <div>
-      <div>
-        <h2 id='transition-modal-title'>Add Account</h2>
-        <hr />
-      </div>
-      <div>
-        <div className='text-input'>
-          <label for='account-name' class='label'>
-            Account Name :
-          </label>
-          <input
+    <>
+      <h2>Add Account</h2>
+      <Formik
+        initialValues={{
+          ...accountData,
+        }}
+        validationSchema={validationSchema}
+      >
+        <Form>
+          <TextInput
+            label='Account Name'
             onChange={(e) => onChange(e)}
+            // onChange={(e) => onChange(e)}
             value={accountName}
-            type='text'
-            id='account-name'
-            class='input'
             name='accountName'
+            type='text'
+            placeholder='U1'
           />
-        </div>
-        <br />
-        <div className='text-input'>
-          <label for='phone-number' class='label'>
-            Phone Number :
-          </label>
-          <input
+
+          <TextInput
+            label='Phone Number'
             onChange={(e) => onChange(e)}
             value={phoneNumber}
-            type='number'
-            id='phone-number'
-            class='input'
             name='phoneNumber'
+            type='text'
+            placeholder='0711...'
           />
-        </div>
 
-        <br />
-        <div className='text-input'>
-          <label for='email' class='label'>
-            Email:
-          </label>
-          <input
+          <TextInput
+            label='Email'
             onChange={(e) => onChange(e)}
             value={email}
-            type='text'
-            id='email'
-            class='input'
             name='email'
+            type='text'
+            placeholder='alphagal@gmail.com'
           />
-          <br />
-        </div>
-        <div className='text-input'>
-          <label for='writer-id' class='label'>
-            Writer ID:
-          </label>
-          <input
+
+          <TextInput
+            label='Writer ID'
             onChange={(e) => onChange(e)}
             value={writerId}
-            type='number'
-            id='writer-id'
-            class='input'
             name='writerId'
+            type='text'
+            placeholder='4352625'
           />
-        </div>
-        <br />
-        <div className='text-input'>
-          <label for='account-provider' class='label'>
-            Account Provider :
-          </label>
-          <input
+
+          <TextInput
+            label='Account Provider'
             onChange={(e) => onChange(e)}
             value={accountProvider}
-            class='input'
-            type='text'
-            id='account-provider'
             name='accountProvider'
+            type='text'
+            placeholder='Academia'
           />
-        </div>
-        <br />
-        <div className='text-input'>
-          <label for='radio-group' class='label'>
-            IP Sensitive:
-          </label>
-          <div id='radio-group' name='radioButton'>
-            <input type='radio' id='radio-true' class='radio' />
-            <label for='radio-true' class='radio'>
-              True
-            </label>
-            <br />
-            <input type='radio' id='radio-false' class='radio' />
-            <label for='radio-false' class='radio'>
-              False
-            </label>
-          </div>
-        </div>
 
-        <Button_AddAccount onClick={() => onSubmit()}>
-          Add Account
-        </Button_AddAccount>
-      </div>
-    </div>
+          <Button_AddAccount onClick={() => onSubmit()}>
+            Add Account
+          </Button_AddAccount>
+        </Form>
+      </Formik>
+    </>
   );
 }

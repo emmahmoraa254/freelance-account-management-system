@@ -1,10 +1,29 @@
-import React from 'react';
-import {
-  Button_AddAccount,
-  Button_UpdateAccount,
-} from '../../assets/styles/CustomStyles';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-export default function addDc() {
+import { Button_AddAccount } from '../../assets/styles/CustomStyles';
+import { addDc } from '../../store/redux/accounts/accountAction';
+
+export default function AddDc() {
+  const dispatch = useDispatch();
+
+  const [dcData, setDcData] = useState({
+    fullName: '',
+    phoneNumber: '',
+    email: '',
+  });
+
+  const { fullName, phoneNumber, email } = dcData;
+
+  const onChange = (e) => {
+    setDcData({ ...dcData, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = () => {
+    console.log('submit');
+    dispatch(addDc({ fullName, phoneNumber, email }));
+  };
+
   return (
     <div>
       <div>
@@ -16,7 +35,14 @@ export default function addDc() {
           <label for='full-name' class='label'>
             Full Name :
           </label>
-          <input type='text' id='full-name' class='input' name='account_name' />
+          <input
+            onChange={(e) => onChange(e)}
+            value={fullName}
+            type='text'
+            id='full-name'
+            class='input'
+            name='fullName'
+          />
         </div>
         <br />
         <div className='text-input'>
@@ -24,10 +50,12 @@ export default function addDc() {
             Phone Number :
           </label>
           <input
+            onChange={(e) => onChange(e)}
+            value={phoneNumber}
             type='number'
             id='phone-number'
             class='input'
-            name='phone_number'
+            name='phoneNumber'
           />
         </div>
 
@@ -36,11 +64,18 @@ export default function addDc() {
           <label for='email' class='label'>
             Email:
           </label>
-          <input type='text' id='email' class='input' name='email' />
+          <input
+            onChange={(e) => onChange(e)}
+            value={email}
+            type='text'
+            id='email'
+            class='input'
+            name='email'
+          />
         </div>
         <br />
         <br />
-        <Button_UpdateAccount></Button_UpdateAccount>
+        <Button_AddAccount onClick={() => onSubmit()}>Add DC</Button_AddAccount>
       </div>
     </div>
   );

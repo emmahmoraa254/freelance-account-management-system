@@ -3,6 +3,7 @@ import Profile from './components/Profile/Profile';
 import Modal from './components/Common/Modal';
 import { BrowserRouter as Router } from 'react-router-dom';
 import AddAccount from './pages/Accounts/AddAccount';
+import AddDc from './pages/Accounts/AddDc';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       {/* <Profile /> */}
       <AddAccount />
       {/* <Modal /> */}
+      {/* <AddDc /> */}
     </Router>
   );
 }
